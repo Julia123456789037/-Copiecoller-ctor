@@ -1,5 +1,3 @@
-package ihm;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -17,54 +15,47 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 
 	private JButton bouton;
 	private JScrollBar sb;
-	private JTextField txtFld;
+
+	private JTextField txtFld1;
+	private JTextField txtFld2;
+
 
 	private ButtonGroup btnGroup;
-
-	private JRadioButton cbChoix1;
-	private JRadioButton cbChoix2;
 
 	private JPanel pnlCentre;
 
 	public PanelBasique()
 	{
 
-		this.setLayout(new GridLayout(4, 1));
+		this.setLayout(new BorderLayout());
 		/*-------------------------------*/
 		/* Création des Composants */
 		/*-------------------------------*/
 
-		this.pnlCentre = new JPanel();
+		this.pnlCentre = new JPanel(new GridLayout(1, 2, 10, 10));
 
-		this.bouton = new JButton("coucou");
+		this.bouton = new JButton("Comparer");
 		this.sb = new JScrollBar(JScrollBar.HORIZONTAL, 0, 40, 0, 150 + 40); // 1
 
 		this.sb.setBlockIncrement(32);
 		this.sb.setUnitIncrement(16);
 
-		this.btnGroup = new ButtonGroup();
-		this.cbChoix1 = new JRadioButton("choix 1");
-		this.cbChoix2 = new JRadioButton("choix 2");
+		this.txtFld1 = new JTextField();
 
-		this.txtFld = new JTextField();
-		this.txtFld.setEditable(false);
-		this.txtFld.setBackground(Color.GRAY);
+		this.txtFld2 = new JTextField();
+
+		this.btnGroup = new ButtonGroup();
 
 		/*-------------------------------*/
 		/* Positionnment des Composant */
 		/*-------------------------------*/
 
-		this.add(this.bouton);
-		this.add(this.txtFld);
-		this.add(this.sb);
+		this.pnlCentre.add(this.txtFld1);
+		this.pnlCentre.add(this.txtFld2);
 
-		this.btnGroup.add(this.cbChoix1);
-		this.btnGroup.add(this.cbChoix2);
+		this.add(this.pnlCentre, BorderLayout.CENTER);
+		this.add(this.bouton, BorderLayout.SOUTH);
 
-		this.add(this.pnlCentre);
-
-		this.pnlCentre.add(this.cbChoix1);
-		this.pnlCentre.add(this.cbChoix2);
 		/*-------------------------------*/
 		/* Activation des Composants */
 		/*-------------------------------*/
@@ -72,11 +63,6 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		this.sb.addAdjustmentListener(this);
 
 		this.setVisible(true);
-
-		this.cbChoix1.addItemListener(this); // pour intercepter le changement
-												// d'état
-		this.cbChoix2.addItemListener(this); // pour intercepter le changement
-												// d'état
 
 		this.setVisible(true);
 		this.pnlCentre.setVisible(true);
@@ -88,11 +74,11 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 
 		switch (e.getAdjustmentType())
 		{
-		case 1 -> sMess += "Bouton droite ";
-		case 2 -> sMess += "Bouton gauche ";
-		case 3 -> sMess += "Bloc gauche ";
-		case 4 -> sMess += "Bloc droite ";
-		case 5 -> sMess += "Schroll bar ";
+			case 1 -> sMess += "Bouton droite ";
+			case 2 -> sMess += "Bouton gauche ";
+			case 3 -> sMess += "Bloc gauche "  ;
+			case 4 -> sMess += "Bloc droite "  ;
+			case 5 -> sMess += "Schroll bar "  ;
 		}
 
 		System.out.println(e.getAdjustmentType());
@@ -112,21 +98,6 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 
 	public void itemStateChanged(ItemEvent e)
 	{
-		if (e.getSource() == this.cbChoix1)
-		{
-			this.cbChoix1.setBackground(Color.BLUE);
-			this.cbChoix2.setBackground(Color.RED);
-			this.txtFld.setEditable(true);
-			this.txtFld.setBackground(Color.WHITE);
-		}
-
-		if (e.getSource() == this.cbChoix2)
-		{
-			this.cbChoix1.setBackground(Color.RED);
-			this.cbChoix2.setBackground(Color.BLUE);
-			this.txtFld.setEditable(false);
-			this.txtFld.setBackground(Color.DARK_GRAY);
-		}
 
 	}
 
