@@ -6,6 +6,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -34,6 +36,18 @@ public class panelTexte extends JPanel
 		this.textArea.setLineWrap(true);
 		this.textArea.setWrapStyleWord(true);
 
+		this.textArea.getDocument().addDocumentListener(new DocumentListener()
+		{
+			@Override
+			public void insertUpdate (DocumentEvent e) { majTexte(); }
+
+			@Override
+			public void removeUpdate (DocumentEvent e) { majTexte(); }
+
+			@Override
+			public void changedUpdate(DocumentEvent e) { majTexte(); }
+		});
+
 		this.boutonImporter = new JButton("Importer");
 
 		JPanel panelHaut = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -54,6 +68,16 @@ public class panelTexte extends JPanel
 		this.add(panelBas, BorderLayout.SOUTH);
 
 
+	}
+
+	private void majTexte()
+	{
+		String texte = this.textArea.getText().trim();
+		int    nbMots = 0;
+		if (!texte.isEmpty())
+			nbMots = texte.split("\\s+").length;
+
+		this.nombreDeMots.setText("Nombre de mots : " + nbMots);
 	}
 
 	public String getTextArea()
