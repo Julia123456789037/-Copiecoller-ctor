@@ -13,7 +13,7 @@ public class FrameBasique extends JFrame
 
 	private PanelBasique panelBasique;
 
-	public FrameBasique()
+	public FrameBasique(Controleur ctrl)
 	{
 		this.setTitle("CopieColler'ctor");
 
@@ -42,11 +42,6 @@ public class FrameBasique extends JFrame
 		this.add(this.panelBasique);
 
 		this.setVisible(true);
-	}
-
-	public static void main(String[] args)
-	{
-		new FrameBasique();
 	}
 
 }

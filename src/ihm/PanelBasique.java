@@ -90,10 +90,11 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		// if ( e.getSource() == bouton)
-		// {
-
-		// }
+		if ( e.getSource() == bouton)
+		{
+			System.out.println("Bouton Comparer cliqué");
+			//this.ctrl.comparer();
+		}
 	}
 
 	public void itemStateChanged(ItemEvent e)
