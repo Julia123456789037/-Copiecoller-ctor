@@ -16,8 +16,8 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 	private JButton bouton;
 	private JScrollBar sb;
 
-	private JTextField txtFld1;
-	private JTextField txtFld2;
+	private JTextArea txtFld1;
+	private JTextArea txtFld2;
 
 
 	private ButtonGroup btnGroup;
@@ -35,14 +35,10 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		this.pnlCentre = new JPanel(new GridLayout(1, 2, 10, 10));
 
 		this.bouton = new JButton("Comparer");
-		this.sb = new JScrollBar(JScrollBar.HORIZONTAL, 0, 40, 0, 150 + 40); // 1
 
-		this.sb.setBlockIncrement(32);
-		this.sb.setUnitIncrement(16);
+		this.txtFld1 = new JTextArea();
 
-		this.txtFld1 = new JTextField();
-
-		this.txtFld2 = new JTextField();
+		this.txtFld2 = new JTextArea();
 
 		this.btnGroup = new ButtonGroup();
 
