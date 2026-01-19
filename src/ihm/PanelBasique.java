@@ -23,9 +23,15 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 	private ButtonGroup btnGroup;
 
 	private JPanel pnlCentre;
+	private panelTexte panelG;
+	private panelTexte panelD;
 
-	public PanelBasique()
+	private JFrame frame;
+
+	public PanelBasique( JFrame frame )
 	{
+
+		this.frame = frame;
 
 		this.setLayout(new BorderLayout());
 		/*-------------------------------*/
@@ -36,9 +42,8 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 
 		this.bouton = new JButton("Comparer");
 
-		this.txtFld1 = new JTextArea();
-
-		this.txtFld2 = new JTextArea();
+		this.panelG = new panelTexte(frame);
+		this.panelD = new panelTexte(frame);
 
 		this.btnGroup = new ButtonGroup();
 
@@ -46,8 +51,8 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		/* Positionnment des Composant */
 		/*-------------------------------*/
 
-		this.pnlCentre.add(this.txtFld1);
-		this.pnlCentre.add(this.txtFld2);
+		this.pnlCentre.add(this.panelG);
+		this.pnlCentre.add(this.panelD);
 
 		this.add(this.pnlCentre, BorderLayout.CENTER);
 		this.add(this.bouton, BorderLayout.SOUTH);
@@ -56,7 +61,6 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		/* Activation des Composants */
 		/*-------------------------------*/
 
-		this.sb.addAdjustmentListener(this);
 
 		this.setVisible(true);
 

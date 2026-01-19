@@ -19,7 +19,7 @@ public class FrameBasique extends JFrame
 
 		this.setLocation(50, 50);
 
-		this.setSize(500, 250);
+		this.setSize(2500, 2500);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -33,7 +33,7 @@ public class FrameBasique extends JFrame
 		/* Création des Panels */
 		/*------------------------------*/
 
-		this.panelBasique = new PanelBasique();
+		this.panelBasique = new PanelBasique(this);
 
 		/*------------------------------*/
 		/* Positionnment des panels */
