@@ -1,5 +1,8 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.awt.Image;
 
 import javax.swing.*;
@@ -20,6 +23,7 @@ public class panelTexte extends JPanel implements ActionListener
 	JButton boutonImporter;
 	JButton boutonSupprimer;
 	private int nbMotsCommun = 8;
+	private String cheminDernierFichier = null;
 
 	public panelTexte( JFrame frame )
 	{
@@ -36,18 +40,6 @@ public class panelTexte extends JPanel implements ActionListener
 		this.textArea.setLineWrap(true);
 		this.textArea.setWrapStyleWord(true);
 		this.textArea.setMargin(new java.awt.Insets(5, 5, 5, 5));
-
-		this.textArea.getDocument().addDocumentListener(new DocumentListener()
-		{
-			@Override
-			public void insertUpdate (DocumentEvent e) { majTexte(); }
-
-			@Override
-			public void removeUpdate (DocumentEvent e) { majTexte(); }
-
-			@Override
-			public void changedUpdate(DocumentEvent e) { majTexte(); }
-		});
 
 		this.boutonImporter = new JButton();
 		ImageIcon iconImporter = new ImageIcon("../bin/logo/importer.png");
@@ -89,6 +81,17 @@ public class panelTexte extends JPanel implements ActionListener
 
 		this.boutonImporter.addActionListener(this);
 		this.boutonSupprimer.addActionListener(this);
+		this.textArea.getDocument().addDocumentListener(new DocumentListener()
+		{
+			@Override
+			public void insertUpdate (DocumentEvent e) { majTexte(); }
+
+			@Override
+			public void removeUpdate (DocumentEvent e) { majTexte(); }
+
+			@Override
+			public void changedUpdate(DocumentEvent e) { majTexte(); }
+		});
 
 		majTexte();
 	}
@@ -116,7 +119,32 @@ public class panelTexte extends JPanel implements ActionListener
 		if (e.getSource() == boutonImporter)
 		{
 			System.out.println("Bouton Importer cliqué");
+			JFileChooser choisirImport = new JFileChooser();
+			if (this.cheminDernierFichier != null)
+				choisirImport.setCurrentDirectory(new File(this.cheminDernierFichier).getParentFile());
+
+			choisirImport.setDialogTitle("Choisir un fichier texte");
+			choisirImport.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			choisirImport.setAcceptAllFileFilterUsed(false);
+			
+			int val = choisirImport.showOpenDialog(this.frame);
+			if (val == JFileChooser.APPROVE_OPTION)
+			{
+				File fichierChoisi = choisirImport.getSelectedFile();
+				this.cheminDernierFichier = fichierChoisi.getAbsolutePath();
+
+				try
+				{
+					String contenuFichier = new String(Files.readAllBytes(fichierChoisi.toPath()));
+					this.textArea.setText(contenuFichier);
+				}
+				catch (Exception ex)
+				{
+					JOptionPane.showMessageDialog(this.frame, "Erreur lors de la lecture du fichier.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 		}
+		
 		else if (e.getSource() == boutonSupprimer)
 		{
 			System.out.println("Bouton Supprimer cliqué");
