@@ -1,5 +1,3 @@
-import javax.sound.sampled.Control;
-
 public class Controleur 
 {
 	public Controleur() throws Exception
