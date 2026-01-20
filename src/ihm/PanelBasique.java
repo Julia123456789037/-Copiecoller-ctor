@@ -61,8 +61,6 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		// Bouton Comparer
 		this.bouton = new JButton("Comparer");
 
-		this.btnGroup = new ButtonGroup();
-
 		/*-------------------------------*/
 		/* Positionnment des Composant */
 		/*-------------------------------*/
@@ -100,11 +98,6 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 			//this.ctrl.comparer();
 		}
-	}
-
-	public void itemStateChanged(ItemEvent e)
-	{
-
 	}
 
 }
