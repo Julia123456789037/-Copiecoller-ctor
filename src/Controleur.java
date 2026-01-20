@@ -1,5 +1,7 @@
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import metier.DetecteurPlagiat;
 import metier.Plagiat;
@@ -8,10 +10,14 @@ public class Controleur
 {
     public List<String> texte1;
     public List<String> texte2;
+    public Set<String> dets = new HashSet<>();
+
+    
     
 	public Controleur() throws Exception
 	{
 		FrameBasique frame = new FrameBasique(this);
+        initialiserDeterminants();
 	}
 	public static void main(String[] args) throws Exception
 	{
@@ -25,8 +31,8 @@ public class Controleur
      * @param int seuil minimal pour consodéré qu'on a du plagiat
      * @return une liste des différent plagiat
      */
-    private static List<Plagiat> annalysePlagiat( String texte1, String texte2, int seuilMini) {
-        formatexte( texte1, texte2 );
+    private List<Plagiat> annalysePlagiat( String text1, String text2, int seuilMini) {
+        formatexte( text1, text2 );
 
         // Créer le détecteur avec seuil de 5 pour cet exemple
         DetecteurPlagiat detecteur = new DetecteurPlagiat(seuilMini);
@@ -45,9 +51,24 @@ public class Controleur
      * @param String texte 1
      * @param String texte 2
      */
-    private static void formatexte( String texte1, String texte2 ) {
-        this.texte1 =  Arrays.asList(texte1.split("\\s+"));
-        this.texte2 =  Arrays.asList(texte2.split("\\s+"));
+    private void formatexte( String text1, String text2 ) {
+        this.texte1 =  Arrays.asList(text1.split("\\s+"));
+        this.texte2 =  Arrays.asList(text2.split("\\s+"));
     }
+
+       /**
+     * Initialise la liste des déterminants de 3 lettres à ignorer
+     * @return Un ensemble de déterminants
+     */
+    private Set<String> initialiserDeterminants() {
+        this.dets.addAll(Arrays.asList(
+            "les", "des", "une", "aux", "ces", "ses", "mes", "tes",
+            "nos", "vos", "par", "sur", "est", "son", "ton", "car",
+            "qui", "que", "ont", "pas", "plus", "mais", "tout", "tous",
+            "très", "bien", "sous", "avec", "sans", "pour", "dans", "été"
+        ));
+        return dets;
+    }
+    public Set<String> getDets() { return dets; }
 
 }
