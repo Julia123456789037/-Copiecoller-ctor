@@ -75,7 +75,7 @@ public class panelTexte extends JPanel
 		String texte = this.textArea.getText().trim();
 		int    nbMots = 0;
 		if (!texte.isEmpty())
-			nbMots = texte.split("\\s+").length;
+			nbMots = texte.split("\\W+").length;
 
 		this.nombreDeMots.setText("Nombre de mots : " + nbMots);
 	}
