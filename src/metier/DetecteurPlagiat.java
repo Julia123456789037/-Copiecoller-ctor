@@ -1,11 +1,14 @@
 package metier;
 
 import java.util.*;
+import Controleur;
 
 /**
  * Classe principale pour la détection de plagiat entre deux textes
  */
 public class DetecteurPlagiat {
+
+    private Controleur control;
     private int seuilMini;
     private Set<String> determinants;
     private HashMap<String, Mot> lstMotT1;
@@ -16,27 +19,29 @@ public class DetecteurPlagiat {
     /**
      * Constructeur avec seuil par défaut (8 mots)
      */
-    public DetecteurPlagiat() {
+    public DetecteurPlagiat( Controleur contr) {
         this(8);
+        this.control = contr;
     }
     
     /**
      * Constructeur avec seuil personnalisé
      * @param seuilMini Le nombre minimum de mots pour considérer un plagiat
      */
-    public DetecteurPlagiat(int seuilMini) {
+    public DetecteurPlagiat(int seuilMini, Controleur cont) {
+        this.control = cont;
         this.seuilMini = seuilMini;
-        this.determinants = initialiserDeterminants();
+        this.determinants = this.control.initialiserDeterminants();
         this.lstMotT1 = new HashMap<>();
         this.lstMotT2 = new HashMap<>();
         this.motsCommuns = new HashMap<>();
         this.plagiatsDetectes = new ArrayList<>();
     }
-    
+    /* 
     /**
      * Initialise la liste des déterminants de 3 lettres à ignorer
      * @return Un ensemble de déterminants
-     */
+     *
     private Set<String> initialiserDeterminants() {
         Set<String> dets = new HashSet<>();
         dets.addAll(Arrays.asList(
@@ -46,7 +51,7 @@ public class DetecteurPlagiat {
             "très", "bien", "sous", "avec", "sans", "pour", "dans", "été"
         ));
         return dets;
-    }
+    }*/
     
     /**
      * Extrait les mots d'un texte et les stocke dans la HashMap appropriée

@@ -35,7 +35,7 @@ public class Controleur
         formatexte( text1, text2 );
 
         // Créer le détecteur avec seuil de 5 pour cet exemple
-        DetecteurPlagiat detecteur = new DetecteurPlagiat(seuilMini);
+        DetecteurPlagiat detecteur = new DetecteurPlagiat( seuilMini, this );
         
         // Analyser les textes
         List<Plagiat> resultats = detecteur.analyser( this.texte1, this.texte2);
