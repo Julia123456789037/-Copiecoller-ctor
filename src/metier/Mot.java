@@ -25,41 +25,31 @@ public class Mot {
      * Obtenir le mot
      * @return Le mot
      */
-    public String getMot() {
-        return mot;
-    }
+    public String getMot() { return mot; }
     
     /**
      * Obtenir les indices dans le texte 1
      * @return Liste des indices dans T1
      */
-    public List<Integer> getIndicesT1() {
-        return indicesT1;
-    }
+    public List<Integer> getIndicesT1() { return indicesT1; }
     
     /**
      * Obtenir les indices dans le texte 2
      * @return Liste des indices dans T2
      */
-    public List<Integer> getIndicesT2() {
-        return indicesT2;
-    }
+    public List<Integer> getIndicesT2() { return indicesT2; }
     
     /**
      * Ajouter un indice pour le texte 1
      * @param indice L'indice à ajouter
      */
-    public void ajouterIndiceT1(int indice) {
-        indicesT1.add(indice);
-    }
+    public void ajouterIndiceT1(int indice) { indicesT1.add(indice); }
     
     /**
      * Ajouter un indice pour le texte 2
      * @param indice L'indice à ajouter
      */
-    public void ajouterIndiceT2(int indice) {
-        indicesT2.add(indice);
-    }
+    public void ajouterIndiceT2(int indice) { indicesT2.add(indice); }
     
     @Override
     public String toString() {

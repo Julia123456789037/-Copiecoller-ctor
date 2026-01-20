@@ -187,11 +187,8 @@ public class DetecteurPlagiat {
         // Créer l'objet Plagiat
         int longueur = fin1 - debut1 + 1;
         
-        if (longueur >= 1) {
-            return new Plagiat(debut1, fin1, debut2, fin2);
-        } else {
-            return null;
-        }
+        if (longueur >= 1) { return new Plagiat(debut1, fin1, debut2, fin2); } 
+        else { return null; }
     }
     
     /**
@@ -245,23 +242,10 @@ public class DetecteurPlagiat {
     // GETTERS ET SETTERS
     // ============================================
     
-    public HashMap<String, Mot> getLstMotT1() {
-        return lstMotT1;
-    }
+    public HashMap<String, Mot> getLstMotT1() { return lstMotT1; }
+    public HashMap<String, Mot> getLstMotT2() { return lstMotT2; }
+    public HashMap<String, Mot> getMotsCommuns() { return motsCommuns; }
+    public int getSeuilMini() { return seuilMini; }
     
-    public HashMap<String, Mot> getLstMotT2() {
-        return lstMotT2;
-    }
-    
-    public HashMap<String, Mot> getMotsCommuns() {
-        return motsCommuns;
-    }
-    
-    public int getSeuilMini() {
-        return seuilMini;
-    }
-    
-    public void setSeuilMini(int seuilMini) {
-        this.seuilMini = seuilMini;
-    }
+    public void setSeuilMini(int seuilMini) { this.seuilMini = seuilMini; }
 }

@@ -29,41 +29,31 @@ public class Plagiat {
      * Obtenir l'indice de début dans T1
      * @return L'indice de début
      */
-    public int getIndiceDebutT1() {
-        return indiceDebutT1;
-    }
+    public int getIndiceDebutT1() { return indiceDebutT1; }
     
     /**
      * Obtenir l'indice de fin dans T1
      * @return L'indice de fin
      */
-    public int getIndiceFinT1() {
-        return indiceFinT1;
-    }
+    public int getIndiceFinT1() { return indiceFinT1; }
     
     /**
      * Obtenir l'indice de début dans T2
      * @return L'indice de début
      */
-    public int getIndiceDebutT2() {
-        return indiceDebutT2;
-    }
+    public int getIndiceDebutT2() { return indiceDebutT2; }
     
     /**
      * Obtenir l'indice de fin dans T2
      * @return L'indice de fin
      */
-    public int getIndiceFinT2() {
-        return indiceFinT2;
-    }
+    public int getIndiceFinT2() { return indiceFinT2; }
     
     /**
      * Obtenir la longueur du plagiat
      * @return Le nombre de mots plagiés
      */
-    public int getLongueur() {
-        return longueur;
-    }
+    public int getLongueur() { return longueur; }
     
     @Override
     public String toString() {
