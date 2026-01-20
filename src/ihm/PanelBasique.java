@@ -1,49 +1,65 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 
 import javax.swing.*;
 
-public class PanelBasique extends JPanel implements ActionListener, ItemListener, AdjustmentListener
+public class PanelBasique extends JPanel implements ActionListener, ItemListener, ChangeListener
 {
 
 	private JButton bouton;
-	private JScrollBar sb;
-
-	private JTextArea txtFld1;
-	private JTextArea txtFld2;
-
+	private JButton boutonSupprimer1;
+	private JButton boutonSupprimer2;
 
 	private ButtonGroup btnGroup;
 
 	private JPanel pnlCentre;
+	private JPanel pnlHaut;
 	private panelTexte panelG;
 	private panelTexte panelD;
 
 	private JFrame frame;
+	
+	private JSpinner spinnerMots;
+	private int nbMotsCommun = 8;
 
 	public PanelBasique( JFrame frame )
 	{
 
 		this.frame = frame;
 
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(10, 10));
 		/*-------------------------------*/
 		/* Création des Composants */
 		/*-------------------------------*/
 
-		this.pnlCentre = new JPanel(new GridLayout(1, 2, 10, 10));
+		// Panel haut avec le sélecteur de mots communs
+		this.pnlHaut = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JLabel labelMots = new JLabel("Nombre de mots commun:");
+		SpinnerNumberModel model = new SpinnerNumberModel(8, 1, 100, 1);
+		this.spinnerMots = new JSpinner(model);
+		
+		this.pnlHaut.add(labelMots);
+		this.pnlHaut.add(this.spinnerMots);
 
-		this.bouton = new JButton("Comparer");
+		// Panel centre avec les deux panelTexte
+		this.pnlCentre = new JPanel(new GridLayout(1, 2, 10, 10));
 
 		this.panelG = new panelTexte(frame);
 		this.panelD = new panelTexte(frame);
+
+		this.pnlCentre.add(this.panelG);
+		this.pnlCentre.add(this.panelD);
+
+		// Bouton Comparer
+		this.bouton = new JButton("Comparer");
 
 		this.btnGroup = new ButtonGroup();
 
@@ -51,9 +67,7 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		/* Positionnment des Composant */
 		/*-------------------------------*/
 
-		this.pnlCentre.add(this.panelG);
-		this.pnlCentre.add(this.panelD);
-
+		this.add(this.pnlHaut, BorderLayout.NORTH);
 		this.add(this.pnlCentre, BorderLayout.CENTER);
 		this.add(this.bouton, BorderLayout.SOUTH);
 
@@ -61,31 +75,21 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		/* Activation des Composants */
 		/*-------------------------------*/
 
+		this.spinnerMots.addChangeListener(this);
+		this.bouton.addActionListener(this);
 
 		this.setVisible(true);
-
-		this.setVisible(true);
-		this.pnlCentre.setVisible(true);
 	}
 
-	public void adjustmentValueChanged(AdjustmentEvent e)
+
+	public void stateChanged(ChangeEvent e)
 	{
-		String sMess = "";
-
-		switch (e.getAdjustmentType())
+		if (e.getSource() == spinnerMots)
 		{
-			case 1 -> sMess += "Bouton droite ";
-			case 2 -> sMess += "Bouton gauche ";
-			case 3 -> sMess += "Bloc gauche "  ;
-			case 4 -> sMess += "Bloc droite "  ;
-			case 5 -> sMess += "Schroll bar "  ;
+			this.nbMotsCommun = (Integer) this.spinnerMots.getValue();
+			this.panelG.setNbMotsCommun(this.nbMotsCommun);
+			this.panelD.setNbMotsCommun(this.nbMotsCommun);
 		}
-
-		System.out.println(e.getAdjustmentType());
-
-		sMess += String.format("%5d", sb.getValue());
-
-		System.out.println(sMess);
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -93,6 +97,7 @@ public class PanelBasique extends JPanel implements ActionListener, ItemListener
 		if ( e.getSource() == bouton)
 		{
 			System.out.println("Bouton Comparer cliqué");
+			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 			//this.ctrl.comparer();
 		}
 	}

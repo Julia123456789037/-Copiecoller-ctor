@@ -19,7 +19,7 @@ public class FrameBasique extends JFrame
 
 		this.setLocation(50, 50);
 
-		this.setSize(2500, 2500);
+		this.setSize(1250, 850);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
