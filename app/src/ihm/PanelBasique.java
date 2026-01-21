@@ -95,4 +95,10 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		}
 	}
 
+	//Ajout d'une méthode pour transmettre le chemin du dernier fichier importé
+	public void setCheminDernierFichier(String chemin)
+	{
+		this.panelG.setCheminDernierFichier(chemin);
+		this.panelD.setCheminDernierFichier(chemin);
+	}
 }

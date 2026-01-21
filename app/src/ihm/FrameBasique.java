@@ -44,4 +44,9 @@ public class FrameBasique extends JFrame
 		this.setVisible(true);
 	}
 
+	//Ajout d'une méthode pour transmettre le chemin du dernier fichier importé aux panels de texte
+	public void setCheminDernierFichier(String chemin)
+	{
+		this.panelBasique.setCheminDernierFichier(chemin);
+	}
 }

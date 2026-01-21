@@ -129,7 +129,9 @@ public class panelTexte extends JPanel implements ActionListener
 			if (val == JFileChooser.APPROVE_OPTION)
 			{
 				File fichierChoisi = choisirImport.getSelectedFile();
-				this.cheminDernierFichier = fichierChoisi.getAbsolutePath();
+				String cheminFichier = fichierChoisi.getAbsolutePath();
+				this.setCheminDernierFichier(cheminFichier);
+				((FrameBasique) this.frame).setCheminDernierFichier(cheminFichier);
 
 				try
 				{
@@ -153,5 +155,10 @@ public class panelTexte extends JPanel implements ActionListener
 	public String getTextArea()
 	{
 		return this.textArea.getText();
+	}
+
+	public void setCheminDernierFichier(String chemin)
+	{
+		this.cheminDernierFichier = chemin;
 	}
 }
