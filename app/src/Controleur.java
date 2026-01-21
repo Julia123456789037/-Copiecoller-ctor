@@ -39,7 +39,7 @@ public class Controleur
 	 * @param int seuil minimal pour consodéré qu'on a du plagiat
 	 * @return une liste des différent plagiat
 	 */
-	public ArrayList<Plagiat> annalysePlagiat( String text1, String text2, int seuilMini) {
+	public List<Plagiat> annalysePlagiat( String text1, String text2, int seuilMini) {
 		formatexte( text1, text2 );
 
 		// Créer le détecteur avec seuil de 5 pour cet exemple
@@ -60,8 +60,8 @@ public class Controleur
      * @param String texte 2
      */
     private void formatexte( String text1, String text2 ) {
-        this.texte1 = Arrays.asList(text1.split("\\s+")); 
-		this.texte2 = Arrays.asList(text2.split("\\s+"));
+        this.texte1 =  Arrays.asList(text1.split("\\p\\s+"));
+        this.texte2 =  Arrays.asList(text2.split("\\p\\s+"));
 
         System.out.println();
 

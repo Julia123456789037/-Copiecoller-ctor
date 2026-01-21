@@ -27,12 +27,12 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	private panelTexte panelD;
 	private Controleur ctrl;
 
-	private JFrame frame;
+	private FrameBasique frame;
 	
 	private JSpinner spinnerMots;
 	private int nbMotsCommun = 8;
 
-	public PanelBasique( JFrame frame, Controleur ctrl  )
+	public PanelBasique( FrameBasique frame )
 	{
 
 		this.frame = frame;
@@ -83,6 +83,20 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		this.setVisible(true);
 	}
 
+	public String getTexteG()
+	{
+		return this.panelG.getTexte();
+	}
+
+	public String getTexteD()
+	{
+		return this.panelD.getTexte();
+	}
+
+	public int getNbMotsCommun()
+	{
+		return this.nbMotsCommun;
+	}
 
 	public void stateChanged(ChangeEvent e)
 	{
@@ -100,11 +114,7 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		{
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
-			
-			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat( this.panelG.getTextArea(), this.panelD.getTextArea(), nbMotsCommun );
-
-			System.out.println( lstPlagia );
-
+			this.frame.comparer();
 		}
 	}
 

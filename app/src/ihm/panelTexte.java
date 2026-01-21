@@ -111,6 +111,11 @@ public class panelTexte extends JPanel implements ActionListener
 		majTexte();
 	}
 
+	public String getTexte()
+	{
+		return this.textArea.getText();
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{

@@ -9,7 +9,7 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "Exécution du programme..."
     cd bin
-    java -cp . Controleur
+    java -cp . app.src.Controleur
     cd ..
 else
     echo "Erreur lors de la compilation !"
