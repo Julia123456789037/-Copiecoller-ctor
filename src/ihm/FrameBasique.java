@@ -1,4 +1,8 @@
+package ihm;
+
 import javax.swing.*;
+
+import controleur.Controleur;
 
 import java.awt.BorderLayout;
 

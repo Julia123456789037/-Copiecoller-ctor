@@ -1,8 +1,8 @@
-src/metier/Main.java
-src/metier/Mot.java
-src/metier/Plagiat.java
-src/metier/DetecteurPlagiat.java
-src/Controleur.java
-src/ihm/FrameBasique.java
-src/ihm/PanelBasique.java
-src/ihm/panelTexte.java
+metier/Main.java
+metier/Mot.java
+metier/Plagiat.java
+metier/DetecteurPlagiat.java
+controleur/Controleur.java
+ihm/FrameBasique.java
+ihm/PanelBasique.java
+ihm/panelTexte.java

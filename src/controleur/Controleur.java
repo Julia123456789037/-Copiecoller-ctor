@@ -1,10 +1,15 @@
+package controleur;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import ihm.FrameBasique;
 import metier.DetecteurPlagiat;
 import metier.Plagiat;
+
+
+
 
 public class Controleur 
 {
@@ -46,15 +51,19 @@ public class Controleur
 		return resultats;
 	}
 
-	/**
-	 * Format les texte dans des List<String>
-	 * @param String texte 1
-	 * @param String texte 2
-	 */
-	private void formatexte( String text1, String text2 ) {
-		this.texte1 =  Arrays.asList(text1.split("\\s+"));
-		this.texte2 =  Arrays.asList(text2.split("\\s+"));
-	}
+    /**
+     * Format les texte dans des List<String>
+     * @param String texte 1
+     * @param String texte 2
+     */
+    private void formatexte( String text1, String text2 ) {
+        this.texte1 =  Arrays.asList(text1.split("\\p \\s+"));
+        this.texte2 =  Arrays.asList(text2.split("\\p \\s+"));
+
+        System.out.println();
+
+
+    }
 
 	/**
 	 * Initialise la liste des déterminants de 3 lettres à ignorer

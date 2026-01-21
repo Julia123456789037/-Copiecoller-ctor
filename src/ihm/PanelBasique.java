@@ -1,3 +1,5 @@
+package ihm;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
@@ -91,6 +93,13 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 			//this.ctrl.comparer();
 		}
+	}
+
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'itemStateChanged'");
 	}
 
 }
