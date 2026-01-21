@@ -95,11 +95,4 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		}
 	}
 
-
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'itemStateChanged'");
-	}
-
 }

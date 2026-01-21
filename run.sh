@@ -2,7 +2,7 @@
 
 # Compilation
 echo "Compilation en cours..."
-javac -d bin -sourcepath src $(cat compile.list | sed 's|^|src/|')
+javac -d bin -sourcepath app $(cat compile.list | sed 's|^|app/|')
 
 if [ $? -eq 0 ]; then
     echo "Compilation réussie !"

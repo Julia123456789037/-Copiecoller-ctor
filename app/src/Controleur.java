@@ -8,6 +8,7 @@ import java.util.Set;
 
 import app.src.ihm.FrameBasique;
 import app.src.metier.Plagiat;
+import app.src.metier.DetecteurPlagiat;
 
 
 
@@ -23,7 +24,6 @@ public class Controleur
 	public Controleur() throws Exception
 	{
 		FrameBasique frame = new FrameBasique(this);
-		initialiserDeterminants();
 	}
 	public static void main(String[] args) throws Exception
 	{
