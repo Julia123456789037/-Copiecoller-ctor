@@ -1,5 +1,8 @@
+package app.src.metier;
 import java.util.*;
-import controleur.Controleur;
+
+import app.src.Controleur;
+
 
 /**
  * Classe principale pour la détection de plagiat entre deux textes

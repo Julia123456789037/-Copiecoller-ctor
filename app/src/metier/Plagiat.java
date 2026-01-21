@@ -1,4 +1,4 @@
-package metier;
+package app.src.metier;
 
 /**
  * Classe représentant un plagiat détecté entre deux textes

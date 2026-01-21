@@ -1,4 +1,4 @@
-package metier;
+package app.src.metier;
 
 import java.util.Arrays;
 import java.util.List;

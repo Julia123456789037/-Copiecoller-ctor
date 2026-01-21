@@ -1,12 +1,13 @@
-package controleur;
+package app.src;
+
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import ihm.FrameBasique;
-import metier.DetecteurPlagiat;
-import metier.Plagiat;
+
+import app.src.ihm.FrameBasique;
+import app.src.metier.Plagiat;
 
 
 
