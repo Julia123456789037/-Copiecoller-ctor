@@ -1,24 +1,17 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
 
-public class PanelBasique extends JPanel implements ActionListener, ItemListener, ChangeListener
+public class PanelBasique extends JPanel implements ActionListener, ChangeListener
 {
 
 	private JButton bouton;
-	private JButton boutonSupprimer1;
-	private JButton boutonSupprimer2;
-
-	private ButtonGroup btnGroup;
 
 	private JPanel pnlCentre;
 	private JPanel pnlHaut;
