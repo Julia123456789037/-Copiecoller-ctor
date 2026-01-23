@@ -2,7 +2,7 @@ package app.src.ihm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.nio.file.Files;
+import java.io.FileInputStream;
 import java.awt.Image;
 
 import javax.swing.*;
@@ -11,6 +11,11 @@ import javax.swing.event.DocumentListener;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
+import org.apache.tika.parser.ParseContext;
 
 public class panelTexte extends JPanel implements ActionListener
 {
@@ -39,9 +44,9 @@ public class panelTexte extends JPanel implements ActionListener
 		this.textArea.setWrapStyleWord(true);
 		this.textArea.setMargin(new java.awt.Insets(5, 5, 5, 5));
 
-		this.boutonImporter = new JButton();
+		this.boutonImporter    = new JButton();
 		ImageIcon iconImporter = new ImageIcon("../bin/logo/importer.png");
-		Image imgImporter = iconImporter.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+		Image imgImporter      = iconImporter.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 		this.boutonImporter.setIcon(new ImageIcon(imgImporter));
 
 		this.boutonSupprimer = new JButton();
@@ -79,19 +84,17 @@ public class panelTexte extends JPanel implements ActionListener
 
 		this.boutonImporter.addActionListener(this);
 		this.boutonSupprimer.addActionListener(this);
-		this.textArea.getDocument().addDocumentListener(new DocumentListener()
-		{
-			@Override
-			public void insertUpdate (DocumentEvent e) { majTexte(); }
-
-			@Override
-			public void removeUpdate (DocumentEvent e) { majTexte(); }
-
-			@Override
-			public void changedUpdate(DocumentEvent e) { majTexte(); }
-		});
+		this.textArea.getDocument().addDocumentListener(new TexteChangeListener());
 
 		majTexte();
+	}
+
+	// Classe interne pour écouter et gérer les changements des zones de texte
+	private class TexteChangeListener implements DocumentListener
+	{
+		public void insertUpdate(DocumentEvent e)  { majTexte(); }
+		public void removeUpdate(DocumentEvent e)  { majTexte(); }
+		public void changedUpdate(DocumentEvent e) { majTexte(); }
 	}
 
 	private void majTexte()
@@ -124,18 +127,22 @@ public class panelTexte extends JPanel implements ActionListener
 			choisirImport.setDialogTitle("Choisir un fichier texte");
 			choisirImport.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			choisirImport.setAcceptAllFileFilterUsed(false);
+			choisirImport.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Fichier txt",   "txt" ));
+			choisirImport.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Document Word", "docx"));
+			choisirImport.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Fichier PDF",   "pdf" ));
 			
 			int val = choisirImport.showOpenDialog(this.frame);
+			
 			if (val == JFileChooser.APPROVE_OPTION)
 			{
-				File fichierChoisi = choisirImport.getSelectedFile();
+				File   fichierChoisi = choisirImport.getSelectedFile();
 				String cheminFichier = fichierChoisi.getAbsolutePath();
 				this.setCheminDernierFichier(cheminFichier);
 				((FrameBasique) this.frame).setCheminDernierFichier(cheminFichier);
 
 				try
 				{
-					String contenuFichier = new String(Files.readAllBytes(fichierChoisi.toPath()));
+					String contenuFichier = lireFichier(fichierChoisi);
 					this.textArea.setText(contenuFichier);
 				}
 				catch (Exception ex)
@@ -152,13 +159,22 @@ public class panelTexte extends JPanel implements ActionListener
 		}
 	}
 
-	public String getTextArea()
-	{
-		return this.textArea.getText();
-	}
+	public String getTextArea() { return this.textArea.getText(); }
 
-	public void setCheminDernierFichier(String chemin)
+	public void setCheminDernierFichier(String chemin) { this.cheminDernierFichier = chemin; }
+
+	private String lireFichier(File fichier) throws Exception
 	{
-		this.cheminDernierFichier = chemin;
+		AutoDetectParser   parser   = new AutoDetectParser();
+		BodyContentHandler handler  = new BodyContentHandler(-1); // -1 = pas de limite de taille
+		Metadata           metadata = new Metadata();
+		ParseContext       context  = new ParseContext();
+
+		try (FileInputStream fis = new FileInputStream(fichier))
+		{
+			parser.parse(fis, handler, metadata, context);
+		}
+
+		return handler.toString();
 	}
 }
