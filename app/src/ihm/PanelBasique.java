@@ -62,7 +62,10 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 
 		this.add(this.pnlHaut, BorderLayout.NORTH);
 		this.add(this.pnlCentre, BorderLayout.CENTER);
-		this.add(this.bouton, BorderLayout.SOUTH);
+
+		JPanel panelComparer = new JPanel();
+		panelComparer.add(this.bouton);
+		this.add(panelComparer, BorderLayout.SOUTH);
 
 		/*-------------------------------*/
 		/* Activation des Composants */
