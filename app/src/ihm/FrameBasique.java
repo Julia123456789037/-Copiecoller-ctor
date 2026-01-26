@@ -12,12 +12,9 @@ public class FrameBasique extends JFrame
 {
 
 	private PanelBasique panelBasique;
-	private Controleur ctrl;
 
 	public FrameBasique(Controleur ctrl)
 	{
-		this.ctrl = ctrl;
-
 		this.setTitle("CopieColler'ctor");
 
 		this.setLocation(50, 50);
@@ -47,10 +44,10 @@ public class FrameBasique extends JFrame
 		this.setVisible(true);
 	}
 
-	public void comparer()
+	// Ajout d'une méthode pour transmettre le chemin du dernier fichier importé
+	// aux panels de texte
+	public void setCheminDernierFichier(String chemin)
 	{
-		this.ctrl.annalysePlagiat( this.panelBasique.getTexteG(), this.panelBasique.getTexteD(),
-				this.panelBasique.getNbMotsCommun());
+		this.panelBasique.setCheminDernierFichier(chemin);
 	}
-
 }

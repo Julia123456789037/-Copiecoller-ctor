@@ -27,12 +27,12 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	private panelTexte panelD;
 	private Controleur ctrl;
 
-	private FrameBasique frame;
-	
+	private JFrame frame;
+
 	private JSpinner spinnerMots;
 	private int nbMotsCommun = 8;
 
-	public PanelBasique( FrameBasique frame )
+	public PanelBasique(JFrame frame, Controleur ctrl)
 	{
 
 		this.frame = frame;
@@ -49,7 +49,7 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		JLabel labelMots = new JLabel("Nombre de mots commun:");
 		SpinnerNumberModel model = new SpinnerNumberModel(8, 1, 100, 1);
 		this.spinnerMots = new JSpinner(model);
-		
+
 		this.pnlHaut.add(labelMots);
 		this.pnlHaut.add(this.spinnerMots);
 
@@ -83,21 +83,6 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		this.setVisible(true);
 	}
 
-	public String getTexteG()
-	{
-		return this.panelG.getTexte();
-	}
-
-	public String getTexteD()
-	{
-		return this.panelD.getTexte();
-	}
-
-	public int getNbMotsCommun()
-	{
-		return this.nbMotsCommun;
-	}
-
 	public void stateChanged(ChangeEvent e)
 	{
 		if (e.getSource() == spinnerMots)
@@ -110,15 +95,20 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if ( e.getSource() == bouton)
+		if (e.getSource() == bouton)
 		{
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
-			this.frame.comparer();
+
+			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat(this.panelG.getTextArea(),
+					this.panelD.getTextArea(), nbMotsCommun);
+
+			System.out.println(lstPlagia);
+
 		}
 	}
 
-	//Ajout d'une méthode pour transmettre le chemin du dernier fichier importé
+	// Ajout d'une méthode pour transmettre le chemin du dernier fichier importé
 	public void setCheminDernierFichier(String chemin)
 	{
 		this.panelG.setCheminDernierFichier(chemin);
