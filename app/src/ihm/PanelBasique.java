@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
+import java.awt.Color;
+
 import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.BorderLayout;
@@ -100,6 +105,11 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	{
 		if (e.getSource() == bouton)
 		{
+			Highlighter hG = this.panelG.getJTextArea().getHighlighter();
+			Highlighter hD = this.panelD.getJTextArea().getHighlighter();
+			hG.removeAllHighlights();
+			hD.removeAllHighlights();
+
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 
@@ -107,6 +117,22 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 					this.panelD.getTextArea(), nbMotsCommun);
 
 			System.out.println(lstPlagia);
+
+			try {
+				for (Plagiat p : lstPlagia) {
+					int startT1     = p.getIndiceDebutT1(); // Index du début
+					int endT1       = p.getIndiceFinT1();   // Index de fin
+					int startT2     = p.getIndiceDebutT2(); // Index du début
+					int endT2       = p.getIndiceFinT2();   // Index de fin
+					
+					// Ajout du surlignage
+					hG.addHighlight(startT1, endT1, new DefaultHighlighter.DefaultHighlightPainter(Color.RED));
+					hD.addHighlight(startT2, endT2, new DefaultHighlighter.DefaultHighlightPainter(Color.RED));
+				}
+			} catch (BadLocationException exception) {
+				System.out.println("Erreur de surlignage : " + exception.getMessage());
+			}
+
 
 		}
 	}

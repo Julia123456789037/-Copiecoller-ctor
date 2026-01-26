@@ -162,6 +162,11 @@ public class panelTexte extends JPanel implements ActionListener
 		return this.textArea.getText();
 	}
 
+	public JTextArea getJTextArea()
+	{
+		return this.textArea;
+	}
+
 	public void setCheminDernierFichier(String chemin)
 	{
 		this.cheminDernierFichier = chemin;
