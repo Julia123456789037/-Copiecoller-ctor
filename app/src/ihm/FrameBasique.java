@@ -33,7 +33,7 @@ public class FrameBasique extends JFrame
 		/* Création des Panels */
 		/*------------------------------*/
 
-		this.panelBasique = new PanelBasique(this);
+		this.panelBasique = new PanelBasique(this, ctrl);
 
 		/*------------------------------*/
 		/* Positionnment des panels */
@@ -44,7 +44,8 @@ public class FrameBasique extends JFrame
 		this.setVisible(true);
 	}
 
-	//Ajout d'une méthode pour transmettre le chemin du dernier fichier importé aux panels de texte
+	// Ajout d'une méthode pour transmettre le chemin du dernier fichier importé
+	// aux panels de texte
 	public void setCheminDernierFichier(String chemin)
 	{
 		this.panelBasique.setCheminDernierFichier(chemin);
