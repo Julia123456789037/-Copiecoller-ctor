@@ -12,7 +12,6 @@ import javax.swing.text.Highlighter;
 import java.awt.Color;
 
 import java.awt.GridLayout;
-import java.awt.List;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
