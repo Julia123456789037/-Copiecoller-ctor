@@ -2,14 +2,14 @@
 
 # Compilation
 echo "Compilation en cours..."
-javac -d bin -sourcepath app $(cat compile.list | sed 's|^|app/|')
+javac -cp lib/tika-app-3.2.3.jar -d bin -sourcepath app $(cat compile.list | sed 's|^|app/|')
 
 if [ $? -eq 0 ]; then
     echo "Compilation réussie !"
     echo ""
     echo "Exécution du programme..."
     cd bin
-    java -cp . app.src.Controleur
+    java -cp .:../lib/tika-app-3.2.3.jar app.src.Controleur
     cd ..
 else
     echo "Erreur lors de la compilation !"

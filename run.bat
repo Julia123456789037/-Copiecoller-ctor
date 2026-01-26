@@ -1,14 +1,14 @@
 @echo off
 REM Compilation
 echo Compilation en cours...
-javac -d bin -sourcepath src src\metier\Main.java src\metier\Mot.java src\metier\Plagiat.java src\metier\DetecteurPlagiat.java src\Controleur.java src\ihm\FrameBasique.java src\ihm\PanelBasique.java src\ihm\panelTexte.java
+javac -cp lib\tika-app-3.2.3.jar -d bin -sourcepath app app\src\metier\Main.java app\src\metier\Mot.java app\src\metier\Plagiat.java app\src\metier\DetecteurPlagiat.java app\src\Controleur.java app\src\ihm\FrameBasique.java app\src\ihm\PanelBasique.java app\src\ihm\panelTexte.java
 
 if %ERRORLEVEL% equ 0 (
     echo Compilation reussie !
     echo.
     echo Execution du programme...
     cd bin
-    java -cp . Controleur
+    java -cp .;..\lib\tika-app-3.2.3.jar app.src.Controleur
     cd ..
 ) else (
     echo Erreur lors de la compilation !
