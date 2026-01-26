@@ -2,11 +2,17 @@ package app.src.ihm;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.GridLayout;
+import java.awt.List;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+
+import app.src.Controleur;
+import app.src.metier.Plagiat;
 
 import javax.swing.*;
 
@@ -19,16 +25,19 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	private JPanel pnlHaut;
 	private panelTexte panelG;
 	private panelTexte panelD;
+	private Controleur ctrl;
 
 	private JFrame frame;
 	
 	private JSpinner spinnerMots;
 	private int nbMotsCommun = 8;
 
-	public PanelBasique( JFrame frame )
+	public PanelBasique( JFrame frame, Controleur ctrl  )
 	{
 
 		this.frame = frame;
+
+		this.ctrl = ctrl;
 
 		this.setLayout(new BorderLayout(10, 10));
 		/*-------------------------------*/
@@ -91,7 +100,11 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		{
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
-			//this.ctrl.comparer();
+			
+			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat( this.panelG.getTextArea(), this.panelD.getTextArea(), nbMotsCommun );
+
+			System.out.println( lstPlagia );
+
 		}
 	}
 

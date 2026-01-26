@@ -33,7 +33,7 @@ public class FrameBasique extends JFrame
 		/* Création des Panels */
 		/*------------------------------*/
 
-		this.panelBasique = new PanelBasique(this);
+		this.panelBasique = new PanelBasique(this, ctrl);
 
 		/*------------------------------*/
 		/* Positionnment des panels */

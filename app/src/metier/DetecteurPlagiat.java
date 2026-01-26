@@ -15,7 +15,7 @@ public class DetecteurPlagiat
     private HashMap<String, Mot> lstMotT1;
     private HashMap<String, Mot> lstMotT2;
     private HashMap<String, Mot> motsCommuns;
-    private List<Plagiat> plagiatsDetectes;
+    private ArrayList<Plagiat> plagiatsDetectes;
     
     
     /**
@@ -223,7 +223,7 @@ public class DetecteurPlagiat
      * @param texte2 Le deuxième texte (liste de mots)
      * @return La liste des plagiats détectés
      */
-    public List<Plagiat> analyser(List<String> texte1, List<String> texte2) {
+    public ArrayList<Plagiat> analyser(List<String> texte1, List<String> texte2) {
         // Réinitialiser les structures
         lstMotT1.clear();
         lstMotT2.clear();
