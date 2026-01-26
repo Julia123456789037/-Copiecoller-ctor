@@ -14,7 +14,7 @@ import java.awt.FlowLayout;
 
 public class panelTexte extends JPanel implements ActionListener
 {
-	JFrame frame;
+	FrameBasique frame;
 	JTextArea textArea;
 	JTextField nombreDeMots;
 	JTextField nombreDeMotsMin;
@@ -23,7 +23,7 @@ public class panelTexte extends JPanel implements ActionListener
 	private int nbMotsCommun = 8;
 	private String cheminDernierFichier = null;
 
-	public panelTexte( JFrame frame )
+	public panelTexte( FrameBasique frame )
 	{
 		super();
 		this.frame = frame;
@@ -136,7 +136,7 @@ public class panelTexte extends JPanel implements ActionListener
 				File fichierChoisi = choisirImport.getSelectedFile();
 				String cheminFichier = fichierChoisi.getAbsolutePath();
 				this.setCheminDernierFichier(cheminFichier);
-				((FrameBasique) this.frame).setCheminDernierFichier(cheminFichier);
+				this.frame.setCheminDernierFichier(cheminFichier);
 
 				try
 				{

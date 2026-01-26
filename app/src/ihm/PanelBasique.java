@@ -27,12 +27,12 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	private panelTexte panelD;
 	private Controleur ctrl;
 
-	private JFrame frame;
+	private FrameBasique frame;
 
 	private JSpinner spinnerMots;
 	private int nbMotsCommun = 8;
 
-	public PanelBasique(JFrame frame, Controleur ctrl)
+	public PanelBasique(FrameBasique frame, Controleur ctrl)
 	{
 
 		this.frame = frame;
