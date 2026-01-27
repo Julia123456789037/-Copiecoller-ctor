@@ -128,10 +128,10 @@ public class DetecteurPlagiat {
                         // indiceDebut = position de la première lettre du premier mot
                         int indiceDebutT1 = positionsMots1[motDebutT1];
                         // indiceFin = position de la dernière lettre du dernier mot
-                        int indiceFinT1 = positionsMots1[motFinT1] + t1.get(motFinT1).length() - 1;
+                        int indiceFinT1 = positionsMots1[motFinT1] + t1.get(motFinT1).length();
                         
                         int indiceDebutT2 = positionsMots2[motDebutT2];
-                        int indiceFinT2 = positionsMots2[motFinT2] + t2.get(motFinT2).length() - 1;
+                        int indiceFinT2 = positionsMots2[motFinT2] + t2.get(motFinT2).length();
                         
                         // Calculer le nombre de lettres
                         int nombreLettres = calculerNombreLettres(t1, motDebutT1, motFinT1);
