@@ -45,12 +45,12 @@ public class panelTexte extends JPanel implements ActionListener
 		this.textArea.setMargin(new java.awt.Insets(5, 5, 5, 5));
 
 		this.boutonImporter    = new JButton();
-		ImageIcon iconImporter = new ImageIcon("../bin/logo/importer.png");
+		ImageIcon iconImporter = new ImageIcon("../bin/ressource/importer.png");
 		Image imgImporter      = iconImporter.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 		this.boutonImporter.setIcon(new ImageIcon(imgImporter));
 
 		this.boutonSupprimer = new JButton();
-		ImageIcon iconSupprimer = new ImageIcon("../bin/logo/gomme.png");
+		ImageIcon iconSupprimer = new ImageIcon("../bin/ressource/gomme.png");
 		Image imgSupprimer = iconSupprimer.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 		this.boutonSupprimer.setIcon(new ImageIcon(imgSupprimer));
 
