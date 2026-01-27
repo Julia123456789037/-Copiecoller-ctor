@@ -113,6 +113,24 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 	{
 		if (e.getSource() == bouton)
 		{
+			// Vérifier si les textes ont au moins le nombre minimum de mots
+			String texte1 = this.panelG.getTextArea();
+			String texte2 = this.panelD.getTextArea();
+			
+			int nbMots1 = texte1.trim().isEmpty() ? 0 : texte1.trim().split("\\s+").length;
+			int nbMots2 = texte2.trim().isEmpty() ? 0 : texte2.trim().split("\\s+").length;
+			
+			if (nbMots1 < this.nbMotsCommun * 3 || nbMots2 < this.nbMotsCommun * 3)
+			{
+				JOptionPane.showMessageDialog(this, 
+					"Erreur : Au moins un texte contient moins de " + this.nbMotsCommun * 3 + " mots.\n" +
+					"Texte 1 : " + nbMots1 + " mots\n" +
+					"Texte 2 : " + nbMots2 + " mots",
+					"Erreur - Nombre de mots insuffisant",
+					JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			Highlighter hG = this.panelG.getJTextArea().getHighlighter();
 			Highlighter hD = this.panelD.getJTextArea().getHighlighter();
 			hG.removeAllHighlights();
