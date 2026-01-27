@@ -1,29 +1,25 @@
 package app.src.metier;
+
 import java.util.*;
-
 import app.src.Controleur;
-
 
 /**
  * Classe principale pour la détection de plagiat entre deux textes
  */
-public class DetecteurPlagiat 
-{
+public class DetecteurPlagiat {
     private Controleur ctrl;
-    private int seuilMini;
+    private int seuilMini;  // Seuil minimum en nombre de LETTRES
     private Set<String> determinants;
     private HashMap<String, Mot> lstMotT1;
     private HashMap<String, Mot> lstMotT2;
     private HashMap<String, Mot> motsCommuns;
     private ArrayList<Plagiat> plagiatsDetectes;
     
-    
     /**
      * Constructeur avec seuil personnalisé
-     * @param seuilMini Le nombre minimum de mots pour considérer un plagiat
+     * @param seuilMini Le nombre minimum de LETTRES pour considérer un plagiat
      */
-    public DetecteurPlagiat(int seuilMini, Controleur ctrl ) 
-    {
+    public DetecteurPlagiat(int seuilMini, Controleur ctrl) {
         this.ctrl = ctrl;
         this.seuilMini = seuilMini;
         this.determinants = initialiserDeterminants();
@@ -34,43 +30,32 @@ public class DetecteurPlagiat
     }
     
     /**
-     * Initialise la liste des déterminants de 3 lettres à ignorer
-     * @return Un ensemble de déterminants
+     * Initialise la liste des déterminants à ignorer
      */
     private Set<String> initialiserDeterminants() {
-        
         try {
-            
             return ctrl.getDets();
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             Set<String> dets = new HashSet<>();
-            
             dets.addAll(Arrays.asList(
-            "les", "des", "une", "aux", "ces", "ses", "mes", "tes",
-            "nos", "vos", "par", "sur", "est", "son", "ton", "car",
-            "qui", "que", "ont", "pas", "plus", "mais", "tout", "tous",
-            "très", "bien", "sous", "avec", "sans", "pour", "dans", "été"
-        ));
+                "les", "des", "une", "aux", "ces", "ses", "mes", "tes",
+                "nos", "vos", "par", "sur", "est", "son", "ton", "car",
+                "qui", "que", "ont", "pas", "plus", "mais", "tout", "tous",
+                "très", "bien", "sous", "avec", "sans", "pour", "dans", "été"
+            ));
             return dets;
-        } 
-
+        }
     }
     
     /**
      * Extrait les mots d'un texte et les stocke dans la HashMap appropriée
-     * @param texte Le texte sous forme de liste de mots
-     * @param numeroTexte 1 pour T1, 2 pour T2
      */
     private void extraireMots(List<String> texte, int numeroTexte) {
         for (int i = 0; i < texte.size(); i++) {
             String motCourant = normaliser(texte.get(i));
             
-            // Vérifier les conditions : longueur > 2 et pas un déterminant
             if (motCourant.length() > 2 && !estDeterminant(motCourant)) {
-                
                 if (numeroTexte == 1) {
-                    // Traitement pour T1
                     if (lstMotT1.containsKey(motCourant)) {
                         lstMotT1.get(motCourant).ajouterIndiceT1(i);
                     } else {
@@ -78,9 +63,7 @@ public class DetecteurPlagiat
                         nouveauMot.ajouterIndiceT1(i);
                         lstMotT1.put(motCourant, nouveauMot);
                     }
-                    
                 } else if (numeroTexte == 2) {
-                    // Traitement pour T2
                     if (lstMotT2.containsKey(motCourant)) {
                         lstMotT2.get(motCourant).ajouterIndiceT2(i);
                     } else {
@@ -103,49 +86,72 @@ public class DetecteurPlagiat
             
             if (lstMotT2.containsKey(cle)) {
                 Mot motT2 = lstMotT2.get(cle);
-                
-                // Fusionner les indices de T2 dans l'objet de T1
                 for (Integer indice : motT2.getIndicesT2()) {
                     motT1.ajouterIndiceT2(indice);
                 }
-                
-                // Ajouter à la liste des mots communs
                 motsCommuns.put(cle, motT1);
             }
         }
     }
     
     /**
-     * Détecte les plagiats en parcourant les mots communs
-     * @param t1 Le premier texte
-     * @param t2 Le deuxième texte
+     * Détecte les plagiats avec calcul des positions en caractères
      */
-    private void detecterPlagiats(List<String> t1, List<String> t2) {
+    private void detecterPlagiats(List<String> t1, List<String> t2, 
+                                   String texteOriginal1, String texteOriginal2) {
         Set<String> plagiatsDejaTraites = new HashSet<>();
+        
+        // Précalculer les positions de chaque mot dans les textes originaux
+        int[] positionsMots1 = calculerPositionsMots(texteOriginal1, t1);
+        int[] positionsMots2 = calculerPositionsMots(texteOriginal2, t2);
         
         for (Map.Entry<String, Mot> entry : motsCommuns.entrySet()) {
             Mot mot = entry.getValue();
             
-            // Pour chaque occurrence du mot dans T1
             for (Integer indiceT1 : mot.getIndicesT1()) {
-                // Pour chaque occurrence du mot dans T2
                 for (Integer indiceT2 : mot.getIndicesT2()) {
-                    
                     String cle = indiceT1 + ":" + indiceT2;
                     if (plagiatsDejaTraites.contains(cle)) {
                         continue;
                     }
                     
-                    // Chercher le plagiat à partir de ces positions
-                    Plagiat plagiat = chercherSequence(t1, t2, indiceT1, indiceT2);
+                    // Chercher la séquence (retourne indices de mots: [debut1, fin1, debut2, fin2])
+                    int[] sequence = chercherSequenceIndices(t1, t2, indiceT1, indiceT2);
                     
-                    if (plagiat != null && plagiat.getLongueur() >= seuilMini) {
-                        plagiatsDetectes.add(plagiat);
+                    if (sequence != null) {
+                        int motDebutT1 = sequence[0];
+                        int motFinT1 = sequence[1];
+                        int motDebutT2 = sequence[2];
+                        int motFinT2 = sequence[3];
                         
-                        // Marquer toutes les positions couvertes comme traitées
-                        for (int i = plagiat.getIndiceDebutT1(); i <= plagiat.getIndiceFinT1(); i++) {
-                            for (int j = plagiat.getIndiceDebutT2(); j <= plagiat.getIndiceFinT2(); j++) {
-                                plagiatsDejaTraites.add(i + ":" + j);
+                        // Calculer les positions en caractères
+                        // indiceDebut = position de la première lettre du premier mot
+                        int indiceDebutT1 = positionsMots1[motDebutT1];
+                        // indiceFin = position de la dernière lettre du dernier mot
+                        int indiceFinT1 = positionsMots1[motFinT1] + t1.get(motFinT1).length() - 1;
+                        
+                        int indiceDebutT2 = positionsMots2[motDebutT2];
+                        int indiceFinT2 = positionsMots2[motFinT2] + t2.get(motFinT2).length() - 1;
+                        
+                        // Calculer le nombre de lettres
+                        int nombreLettres = calculerNombreLettres(t1, motDebutT1, motFinT1);
+                        
+                        if (nombreLettres >= seuilMini) {
+                            Plagiat plagiat = new Plagiat(
+                                indiceDebutT1, indiceFinT1,
+                                indiceDebutT2, indiceFinT2,
+                                nombreLettres,
+                                motDebutT1, motFinT1,
+                                motDebutT2, motFinT2
+                            );
+                            
+                            plagiatsDetectes.add(plagiat);
+                            
+                            // Marquer les positions couvertes comme traitées
+                            for (int i = motDebutT1; i <= motFinT1; i++) {
+                                for (int j = motDebutT2; j <= motFinT2; j++) {
+                                    plagiatsDejaTraites.add(i + ":" + j);
+                                }
                             }
                         }
                     }
@@ -155,24 +161,16 @@ public class DetecteurPlagiat
     }
     
     /**
-     * Cherche une séquence de mots identiques à partir de positions données
-     * @param t1 Le premier texte
-     * @param t2 Le deuxième texte
-     * @param posT1 Position de départ dans T1
-     * @param posT2 Position de départ dans T2
-     * @return Un objet Plagiat ou null si aucune séquence trouvée
+     * Cherche une séquence de mots identiques et retourne les indices de mots
+     * @return tableau [motDebutT1, motFinT1, motDebutT2, motFinT2] ou null
      */
-    private Plagiat chercherSequence(List<String> t1, List<String> t2, int posT1, int posT2) {
-        // Positions de départ
+    private int[] chercherSequenceIndices(List<String> t1, List<String> t2, int posT1, int posT2) {
         int debut1 = posT1;
         int debut2 = posT2;
-        
-        // ---- EXTENSION À DROITE ----
-        // On étend au maximum tant que les mots sont identiques
-        // Les déterminants sont inclus dans la comparaison (ils ne sont exclus que pour trouver les mots communs)
         int fin1 = posT1;
         int fin2 = posT2;
         
+        // Extension à droite
         while (fin1 < t1.size() - 1 && 
                fin2 < t2.size() - 1 &&
                normaliser(t1.get(fin1 + 1)).equals(normaliser(t2.get(fin2 + 1)))) {
@@ -180,8 +178,7 @@ public class DetecteurPlagiat
             fin2++;
         }
         
-        // ---- EXTENSION À GAUCHE ----
-        // On étend à gauche tant que les mots sont identiques
+        // Extension à gauche
         while (debut1 > 0 && 
                debut2 > 0 &&
                normaliser(t1.get(debut1 - 1)).equals(normaliser(t2.get(debut2 - 1)))) {
@@ -189,30 +186,53 @@ public class DetecteurPlagiat
             debut2--;
         }
         
-        // Créer l'objet Plagiat
-        int longueur = fin1 - debut1 + 1;
+        int nombreMots = fin1 - debut1 + 1;
         
-        if (longueur >= 1) {
-            return new Plagiat(debut1, fin1, debut2, fin2);
-        } else {
-            return null;
+        if (nombreMots >= 1) {
+            return new int[]{debut1, fin1, debut2, fin2};
         }
+        return null;
     }
     
     /**
-     * Normalise un mot (minuscules, suppression ponctuation)
-     * @param mot Le mot à normaliser
-     * @return Le mot normalisé
+     * Calcule la position de début de chaque mot dans le texte original
      */
+    private int[] calculerPositionsMots(String texteOriginal, List<String> mots) {
+        int[] positions = new int[mots.size()];
+        int positionCourante = 0;
+        
+        for (int i = 0; i < mots.size(); i++) {
+            String mot = mots.get(i);
+            int pos = texteOriginal.indexOf(mot, positionCourante);
+            if (pos != -1) {
+                positions[i] = pos;
+                positionCourante = pos + mot.length();
+            }
+        }
+        return positions;
+    }
+    
+    /**
+     * Calcule le nombre de lettres dans une séquence de mots
+     */
+    private int calculerNombreLettres(List<String> mots, int debut, int fin) {
+        int total = 0;
+        for (int i = debut; i <= fin; i++) {
+            // Compter uniquement les lettres (pas la ponctuation)
+            String mot = mots.get(i);
+            for (char c : mot.toCharArray()) {
+                if (Character.isLetter(c)) {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+    
     private String normaliser(String mot) {
         return mot.toLowerCase().trim().replaceAll("[.,;:!?'\"]", "");
     }
     
-    /**
-     * Vérifie si un mot est un déterminant
-     * @param mot Le mot à vérifier
-     * @return true si c'est un déterminant, false sinon
-     */
     private boolean estDeterminant(String mot) {
         return determinants.contains(normaliser(mot));
     }
@@ -221,9 +241,12 @@ public class DetecteurPlagiat
      * Analyse deux textes et retourne les plagiats détectés
      * @param texte1 Le premier texte (liste de mots)
      * @param texte2 Le deuxième texte (liste de mots)
+     * @param texteOriginal1 Le texte original 1 (chaîne complète)
+     * @param texteOriginal2 Le texte original 2 (chaîne complète)
      * @return La liste des plagiats détectés
      */
-    public ArrayList<Plagiat> analyser(List<String> texte1, List<String> texte2) {
+    public ArrayList<Plagiat> analyser(List<String> texte1, List<String> texte2,
+                                        String texteOriginal1, String texteOriginal2) {
         // Réinitialiser les structures
         lstMotT1.clear();
         lstMotT2.clear();
@@ -239,11 +262,19 @@ public class DetecteurPlagiat
         // Étape 3: Trouver les mots communs
         trouverMotsCommuns();
         
-        // Étape 4: Détecter les plagiats
-        detecterPlagiats(texte1, texte2);
+        // Étape 4: Détecter les plagiats avec les textes originaux
+        detecterPlagiats(texte1, texte2, texteOriginal1, texteOriginal2);
         
-        // Retourner les plagiats détectés
         return plagiatsDetectes;
+    }
+    
+    /**
+     * Version simplifiée de analyser (reconstruit les textes originaux)
+     */
+    public ArrayList<Plagiat> analyser(List<String> texte1, List<String> texte2) {
+        String texteOriginal1 = String.join(" ", texte1);
+        String texteOriginal2 = String.join(" ", texte2);
+        return analyser(texte1, texte2, texteOriginal1, texteOriginal2);
     }
     
     // ============================================
