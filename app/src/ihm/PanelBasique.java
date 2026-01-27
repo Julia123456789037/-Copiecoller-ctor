@@ -10,6 +10,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Highlighter;
 import java.awt.Color;
+import java.awt.Image;
 
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -33,6 +34,8 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 
 	private JSpinner spinnerMots;
 	private int nbMotsCommun = 8;
+	private JButton boutonCouleur;
+	private Color couleurSurlignage = Color.RED;
 
 	public PanelBasique(FrameBasique frame, Controleur ctrl)
 	{
@@ -49,8 +52,18 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		SpinnerNumberModel model = new SpinnerNumberModel(8, 1, 100, 1);
 		this.spinnerMots = new JSpinner(model);
 
+		// Bouton pour changer la couleur du surlignage
+		this.boutonCouleur = new JButton();
+		ImageIcon iconSurligner = new ImageIcon("../bin/ressource/surligner.png");
+		Image imgSurligner = iconSurligner.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+		this.boutonCouleur.setIcon(new ImageIcon(imgSurligner));
+		this.boutonCouleur.setBackground(Color.RED);
+		this.boutonCouleur.setForeground(Color.WHITE);
+		this.boutonCouleur.setOpaque(true);
+
 		this.pnlHaut.add(labelMots);
 		this.pnlHaut.add(this.spinnerMots);
+		this.pnlHaut.add(this.boutonCouleur);
 
 		// Panel centre avec les deux panelTexte
 		this.pnlCentre = new JPanel(new GridLayout(1, 2, 10, 10));
@@ -65,7 +78,7 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		this.bouton = new JButton("Comparer");
 
 		/*-------------------------------*/
-		/* Positionnment des Composant */
+		/*  Positionnment des Composant  */
 		/*-------------------------------*/
 
 		this.add(this.pnlHaut, BorderLayout.NORTH);
@@ -76,11 +89,12 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 		this.add(panelComparer, BorderLayout.SOUTH);
 
 		/*-------------------------------*/
-		/* Activation des Composants */
+		/*   Activation des Composants   */
 		/*-------------------------------*/
 
 		this.spinnerMots.addChangeListener(this);
 		this.bouton.addActionListener(this);
+		this.boutonCouleur.addActionListener(this);
 
 		this.setVisible(true);
 	}
@@ -107,8 +121,7 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 
-			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat(this.panelG.getTextArea(),
-					this.panelD.getTextArea(), nbMotsCommun);
+			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat(this.panelG.getTextArea(), this.panelD.getTextArea(), nbMotsCommun);
 
 			System.out.println(lstPlagia);
 
@@ -119,15 +132,24 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 					int startT2     = p.getIndiceDebutT2(); // Index du début
 					int endT2       = p.getIndiceFinT2();   // Index de fin
 					
-					// Ajout du surlignage
-					hG.addHighlight(startT1, endT1, new DefaultHighlighter.DefaultHighlightPainter(Color.RED));
-					hD.addHighlight(startT2, endT2, new DefaultHighlighter.DefaultHighlightPainter(Color.RED));
+				// Ajout du surlignage avec la couleur choisie
+				hG.addHighlight(startT1, endT1, new DefaultHighlighter.DefaultHighlightPainter(this.couleurSurlignage));
+				hD.addHighlight(startT2, endT2, new DefaultHighlighter.DefaultHighlightPainter(this.couleurSurlignage));
 				}
 			} catch (BadLocationException exception) {
 				System.out.println("Erreur de surlignage : " + exception.getMessage());
 			}
 
 
+		}
+		else if (e.getSource() == boutonCouleur)
+		{
+			Color nouvelleColor = JColorChooser.showDialog(this, "Choisir la couleur du surlignage", this.couleurSurlignage);
+			if (nouvelleColor != null)
+			{
+				this.couleurSurlignage = nouvelleColor;
+				this.boutonCouleur.setBackground(nouvelleColor);
+			}
 		}
 	}
 

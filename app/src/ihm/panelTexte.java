@@ -64,7 +64,7 @@ public class panelTexte extends JPanel implements ActionListener
 		this.nombreDeMotsMin.setEditable(false);
 		
 		/*-------------------------------*/
-		/* Positionnment des Composant */
+		/*  Positionnment des Composant  */
 		/*-------------------------------*/
 
 		panelHaut.add(this.boutonImporter, BorderLayout.WEST);
