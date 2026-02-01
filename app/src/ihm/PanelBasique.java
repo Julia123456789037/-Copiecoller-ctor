@@ -139,8 +139,15 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 			System.out.println("Bouton Comparer cliqué");
 			System.out.println("Nombre de mots commun : " + this.nbMotsCommun);
 
+			// Démarrer le chronomètre
+			long tempsDebut = System.currentTimeMillis();
+			
 			ArrayList<Plagiat> lstPlagia = this.ctrl.annalysePlagiat(this.panelG.getTextArea(), this.panelD.getTextArea(), nbMotsCommun);
 
+			// Calculer le temps écoulé
+			long tempsFin = System.currentTimeMillis();
+			long tempsExecution = tempsFin - tempsDebut;
+			
 			System.out.println(lstPlagia);
 
 			try {
@@ -157,6 +164,33 @@ public class PanelBasique extends JPanel implements ActionListener, ChangeListen
 			} catch (BadLocationException exception) {
 				System.out.println("Erreur de surlignage : " + exception.getMessage());
 			}
+			
+			// Calculer le pourcentage de plagiat
+			int longueurTotalTexte1 = texte1.length();
+			int longueurTotalTexte2 = texte2.length();
+			int longueurTotalPlagiat = 0;
+			
+			for (Plagiat p : lstPlagia) {
+				longueurTotalPlagiat += (p.getIndiceFinT1() - p.getIndiceDebutT1());
+			}
+			
+			// Moyenne des deux textes pour le pourcentage
+			int longueurMoyenne = (longueurTotalTexte1 + longueurTotalTexte2) / 2;
+			double pourcentagePlagiat = (longueurMoyenne > 0) ? 
+				(double) longueurTotalPlagiat / longueurMoyenne * 100 : 0;
+			
+			// Afficher la pop-up avec temps et pourcentage
+			String message = String.format(
+				"Resultat de l'analyse :\n\n" +
+				"Temps de calcul : %d ms\n" +
+				"Pourcentage de plagiat : %.2f %%\n" +
+				"Nombre de plagiats detectes : %d",
+				tempsExecution,
+				pourcentagePlagiat,
+				lstPlagia.size()
+			);
+			
+			JOptionPane.showMessageDialog(this, message, "Resultat de l'analyse", JOptionPane.INFORMATION_MESSAGE);
 
 
 		}
