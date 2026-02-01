@@ -1,6 +1,5 @@
 package app.src;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -70,19 +69,6 @@ public class Controleur
 
 		System.out.println();
 
-	}
-
-	/**
-	 * Initialise la liste des déterminants de 3 lettres à ignorer
-	 * 
-	 * @return Un ensemble de déterminants
-	 */
-	private Set<String> initialiserDeterminants()
-	{
-		this.dets.addAll(Arrays.asList("les", "des", "une", "aux", "ces", "ses", "mes", "tes", "nos", "vos", "par",
-				"sur", "est", "son", "ton", "car", "qui", "que", "ont", "pas", "plus", "mais", "tout", "tous", "très",
-				"bien", "sous", "avec", "sans", "pour", "dans", "été"));
-		return dets;
 	}
 
 	public Set<String> getDets()
