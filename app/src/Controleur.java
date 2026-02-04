@@ -45,8 +45,8 @@ public class Controleur
 		// Créer le détecteur avec seuil de 5 pour cet exemple
 		DetecteurPlagiat detecteur = new DetecteurPlagiat(seuilMini, this);
 
-		// Analyser les textes
-		ArrayList<Plagiat> resultats = detecteur.analyser(this.texte1, this.texte2);
+		// Analyser les textes avec les textes originaux pour que les indices correspondent
+		ArrayList<Plagiat> resultats = detecteur.analyser(this.texte1, this.texte2, text1, text2);
 
 		// Afficher les résultats
 		// afficherResultats(resultats, texte1, texte2);

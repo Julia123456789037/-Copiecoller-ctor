@@ -8,7 +8,7 @@ import app.src.Controleur;
  */
 public class DetecteurPlagiat {
 	private Controleur ctrl;
-	private int seuilMini;  // Seuil minimum en nombre de LETTRES
+	private int seuilMini;  // Seuil minimum en nombre de MOTS
 	private Set<String> determinants;
 	private HashMap<String, Mot> lstMotT1;
 	private HashMap<String, Mot> lstMotT2;
@@ -17,7 +17,7 @@ public class DetecteurPlagiat {
 	
 	/**
 	 * Constructeur avec seuil personnalisé
-	 * @param seuilMini Le nombre minimum de LETTRES pour considérer un plagiat
+	 * @param seuilMini Le nombre minimum de MOTS pour considérer un plagiat
 	 */
 	public DetecteurPlagiat(int seuilMini, Controleur ctrl) {
 		this.ctrl = ctrl;
@@ -133,14 +133,14 @@ public class DetecteurPlagiat {
 						int indiceDebutT2 = positionsMots2[motDebutT2];
 						int indiceFinT2 = positionsMots2[motFinT2] + t2.get(motFinT2).length();
 						
-						// Calculer le nombre de lettres
-						int nombreLettres = calculerNombreLettres(t1, motDebutT1, motFinT1);
+						// Calculer le nombre de mots
+						int nombreMots = motFinT1 - motDebutT1 + 1;
 						
-						if (nombreLettres >= seuilMini) {
+						if (nombreMots >= seuilMini) {
 							Plagiat plagiat = new Plagiat(
 								indiceDebutT1, indiceFinT1,
 								indiceDebutT2, indiceFinT2,
-								nombreLettres,
+								nombreMots,
 								motDebutT1, motFinT1,
 								motDebutT2, motFinT2
 							);
@@ -210,23 +210,6 @@ public class DetecteurPlagiat {
 			}
 		}
 		return positions;
-	}
-	
-	/**
-	 * Calcule le nombre de lettres dans une séquence de mots
-	 */
-	private int calculerNombreLettres(List<String> mots, int debut, int fin) {
-		int total = 0;
-		for (int i = debut; i <= fin; i++) {
-			// Compter uniquement les lettres (pas la ponctuation)
-			String mot = mots.get(i);
-			for (char c : mot.toCharArray()) {
-				if (Character.isLetter(c)) {
-					total++;
-				}
-			}
-		}
-		return total;
 	}
 	
 	private String normaliser(String mot) {
